@@ -1,0 +1,23 @@
+name: Build Executable
+
+on: [push, workflow_dispatch]
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v4
+
+    - name: Set up Developer Command Prompt
+      uses: ilammy/msvc-dev-cmd@v1
+
+    - name: Compile EXE
+      run: cl /EHsc ds4_correlate.cpp setupapi.lib hid.lib
+
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: ds4_correlate
+        path: ds4_correlate.exe
